@@ -12,7 +12,8 @@ import type {
 import { getStorageItem, setStorageItem } from "@/lib/utils";
 
 // Single cache key — stores full LocationData (city name is derived from it)
-const LOCATION_CACHE_KEY = "salahme-location-cache";
+// We bumped this key from "salahme-location-cache" to bust previous "Jaipur" defaults on old browsers
+const LOCATION_CACHE_KEY = "salahme-location-cache-v2";
 
 function cacheLocation(location: LocationData): void {
     setStorageItem(LOCATION_CACHE_KEY, JSON.stringify(location));
@@ -28,19 +29,7 @@ function getCachedLocation(): LocationData | null {
     }
 }
 
-function getCurrentPosition(): Promise<GeolocationPosition> {
-    return new Promise((resolve, reject) => {
-        if (!navigator.geolocation) {
-            reject(new Error("Geolocation not supported"));
-            return;
-        }
-        navigator.geolocation.getCurrentPosition(resolve, reject, {
-            enableHighAccuracy: true,
-            timeout: 10000,
-            maximumAge: 300000,
-        });
-    });
-}
+
 
 /**
  * Hook for prayer times. Cache-first: on reload, shows cached data instantly.
@@ -98,20 +87,20 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
                     const geo = await reverseGeocodeAction(latitude, longitude);
                     location = geo.success
                         ? {
-                              cityName: geo.cityName || "Current Location",
-                              displayName: geo.displayName,
-                              latitude,
-                              longitude,
-                              state: geo.state,
-                              stateCode: geo.stateCode,
-                              country: geo.country,
-                          }
+                            cityName: geo.cityName || "Current Location",
+                            displayName: geo.displayName,
+                            latitude,
+                            longitude,
+                            state: geo.state,
+                            stateCode: geo.stateCode,
+                            country: geo.country,
+                        }
                         : {
-                              cityName: "Current Location",
-                              displayName: `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`,
-                              latitude,
-                              longitude,
-                          };
+                            cityName: "Current Location",
+                            displayName: `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`,
+                            latitude,
+                            longitude,
+                        };
                 }
 
                 cacheLocation(location);
@@ -169,15 +158,8 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
             return;
         }
 
-        // First-ever visit: try geolocation, then fall back to default city
+        // First-ever visit: skip geolocation to prevent UX friction, fall back to default city directly
         const init = async () => {
-            try {
-                const pos = await getCurrentPosition();
-                await loadPrayers(pos.coords.latitude, pos.coords.longitude);
-                return;
-            } catch {
-                // Geolocation unavailable or denied
-            }
             await searchCity(DEFAULT_CITY);
         };
         init();

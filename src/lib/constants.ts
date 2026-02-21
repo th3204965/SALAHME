@@ -10,7 +10,7 @@ export const PRAYER_DISPLAY_NAMES: Record<string, string> = {
 };
 
 /** Default city to load on initial visit */
-export const DEFAULT_CITY = "Karachi";
+export const DEFAULT_CITY = "Bissau, RJ";
 
 /** Calculation method display name */
 export const CALCULATION_METHOD = "University of Islamic Sciences, Karachi";
