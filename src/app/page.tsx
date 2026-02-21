@@ -106,8 +106,15 @@ export default function Home() {
                     )}
 
                     {/* Prayer List Grid */}
-                    <div className="w-full flex-1 flex flex-col justify-center py-6">
-                        {prayers.length > 0 && <PrayerList prayers={prayers} />}
+                    <div className="w-full flex-1 flex flex-col justify-center py-6 relative">
+                        {prayers.length > 0 ? (
+                            <PrayerList prayers={prayers} />
+                        ) : (
+                            // Maintain the same structural height while waiting for the client mount to prevent 100dvh layout shifting
+                            <div className="opacity-0 pointer-events-none">
+                                <PrayerList prayers={[]} />
+                            </div>
+                        )}
                     </div>
                 </div>
 

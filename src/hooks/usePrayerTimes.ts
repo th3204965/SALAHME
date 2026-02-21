@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { reverseGeocodeAction, searchCityAction } from "@/app/actions";
-import { AUTO_REFRESH_INTERVAL, DEFAULT_CITY } from "@/lib/constants";
+import { AUTO_REFRESH_INTERVAL, DEFAULT_LOCATION } from "@/lib/constants";
 import { calculatePrayerTimes } from "@/lib/prayer-service";
 import type {
     LocationData,
@@ -158,11 +158,20 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
             return;
         }
 
-        // First-ever visit: skip geolocation to prevent UX friction, fall back to default city directly
-        const init = async () => {
-            await searchCity(DEFAULT_CITY);
+        // First-ever visit: load the default location entirely synchronously!
+        // No async loadPrayers calls, eliminating the microscopic 1-frame isLoading flash.
+        const { prayers } = calculatePrayerTimes(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
+        const defaultLoc: LocationData = {
+            cityName: DEFAULT_LOCATION.cityName,
+            displayName: DEFAULT_LOCATION.displayName,
+            latitude: DEFAULT_LOCATION.latitude,
+            longitude: DEFAULT_LOCATION.longitude,
+            state: DEFAULT_LOCATION.state,
+            stateCode: DEFAULT_LOCATION.stateCode,
+            country: DEFAULT_LOCATION.country,
         };
-        init();
+        cacheLocation(defaultLoc);
+        setState({ location: defaultLoc, prayers, isLoading: false, error: null });
     }, [searchCity, loadPrayers]);
 
     // Auto-refresh: recalculate prayer times locally every minute (NO network)

@@ -9,8 +9,16 @@ export const PRAYER_DISPLAY_NAMES: Record<string, string> = {
     qiyam: "Qiyam",
 };
 
-/** Default city to load on initial visit */
-export const DEFAULT_CITY = "Bissau, RJ";
+/** Default location to load instantly on initial visit without network requests */
+export const DEFAULT_LOCATION = {
+    cityName: "Bissau",
+    displayName: "Bissau, RJ",
+    latitude: 28.2469,
+    longitude: 75.0765,
+    state: "Rajasthan",
+    stateCode: "RJ",
+    country: "India",
+};
 
 /** Calculation method display name */
 export const CALCULATION_METHOD = "University of Islamic Sciences, Karachi";
