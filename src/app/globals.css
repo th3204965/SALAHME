@@ -7,13 +7,15 @@
     /* slate-50 */
 }
 
-/* Base Resets for Single-Page Layout */
+/* Base Resets for Responsive Layout */
 html,
 body {
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-    overscroll-behavior: none;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Always allow scroll on small devices when content overflows */
+    overscroll-behavior-y: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--color-background);
@@ -23,11 +25,12 @@ body {
 
 /* Dynamic Animated Background Mesh */
 .bg-mesh {
-    position: absolute;
+    position: fixed;
+    /* Fixed so it doesn't scroll with content */
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
     z-index: 0;
     pointer-events: none;
@@ -35,7 +38,6 @@ body {
         radial-gradient(circle at 85% 30%, rgba(15, 23, 42, 0.8) 0%, transparent 50%),
         radial-gradient(circle at 50% 80%, rgba(13, 148, 136, 0.1) 0%, transparent 40%);
     background-color: #020617;
-    /* Base very dark slate */
 }
 
 .bg-mesh::after {
@@ -74,16 +76,18 @@ input:-webkit-autofill:focus {
 
 /* Premium 3D Card Base */
 .card-3d {
-    transform-style: preserve-3d;
     background: rgba(255, 255, 255, 0.015);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    backdrop-filter: blur(12px);
+    /* reduced blur slightly for performance */
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .card-3d-special {
     background: linear-gradient(135deg, rgba(45, 212, 191, 0.05) 0%, rgba(14, 165, 233, 0.02) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border: 1px solid rgba(45, 212, 191, 0.15);
     box-shadow: 0 25px 50px -12px rgba(45, 212, 191, 0.15), inset 0 1px 0 rgba(45, 212, 191, 0.2);
 }
@@ -99,12 +103,14 @@ input:-webkit-autofill:focus {
 
 /* Massive decorative typography */
 .massive-bg-text {
-    font-size: 35vh;
+    font-size: clamp(10rem, 30vw, 35vh);
+    /* Scale dynamically on mobile */
     font-weight: 900;
     line-height: 0.8;
     color: transparent;
     -webkit-text-stroke: 1px rgba(255, 255, 255, 0.03);
-    position: absolute;
+    position: fixed;
+    /* Fixed so scrolling doesn't break parallax center */
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
