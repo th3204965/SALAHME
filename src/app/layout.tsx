@@ -24,7 +24,7 @@ export const metadata: Metadata = {
         "isha",
     ],
     icons: {
-        icon: "/img/favicon.png",
+        icon: "/img/favicon.svg",
     },
 };
 

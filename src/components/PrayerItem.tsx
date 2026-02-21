@@ -6,7 +6,7 @@ import { Sunrise, Sun, Moon, Sunset, CloudSun, Stars } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const getIconForPrayer = (name: string, isSpecial: boolean) => {
-    const props = { className: `w-6 h-6 md:w-8 md:h-8 ${isSpecial ? 'text-teal-400' : 'text-slate-400'}` };
+    const props = { className: `w-5 h-5 md:w-8 md:h-8 ${isSpecial ? 'text-teal-400' : 'text-slate-400'}` };
     switch (name.toLowerCase()) {
         case 'fajr': return <CloudSun {...props} />;
         case 'sunrise': return <Sunrise {...props} />;
@@ -44,6 +44,11 @@ export function PrayerItem({ prayer }: { prayer: Prayer }) {
     const mouseXSpring = useSpring(x, { stiffness: 400, damping: 30 });
     const mouseYSpring = useSpring(y, { stiffness: 400, damping: 30 });
 
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        setIsMobile(window.matchMedia("(hover: none)").matches);
+    }, []);
+
     // Rotate up to 15 degrees in any direction
     const rotateX = useTransform(mouseYSpring, [0, 1], ["15deg", "-15deg"]);
     const rotateY = useTransform(mouseXSpring, [0, 1], ["-15deg", "15deg"]);
@@ -56,6 +61,7 @@ export function PrayerItem({ prayer }: { prayer: Prayer }) {
     );
 
     const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (isMobile) return;
         // We calculate position directly on the non-rotated wrapper!
         // This ensures the mouse stays perfectly tracked, as the bounding rect never distorts.
         const rect = e.currentTarget.getBoundingClientRect();
@@ -93,7 +99,7 @@ export function PrayerItem({ prayer }: { prayer: Prayer }) {
                     boxShadow: dropShadow,
                     transformStyle: "preserve-3d"
                 }}
-                className={`flex flex-col justify-between w-full h-full p-5 md:p-6 rounded-3xl transition-colors duration-500 ${rowClass}`}
+                className={`flex flex-col justify-between w-full h-full min-h-[130px] md:min-h-[180px] p-4 md:p-6 rounded-2xl md:rounded-3xl transition-colors duration-500 ${rowClass}`}
             >
                 {/* Glossy inner reflection layer */}
                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -103,7 +109,7 @@ export function PrayerItem({ prayer }: { prayer: Prayer }) {
                     className="flex items-start justify-between w-full mb-6 relative z-10"
                     style={{ transform: "translateZ(30px)" }}
                 >
-                    <div className={`text-xl md:text-2xl tracking-widest uppercase ${nameClass}`}>
+                    <div className={`text-base md:text-2xl font-bold md:font-medium tracking-widest uppercase ${nameClass}`}>
                         {prayer.displayName}
                     </div>
                     <div className="opacity-70 group-hover:opacity-100 transition-opacity duration-300 drop-shadow-lg">
@@ -115,10 +121,10 @@ export function PrayerItem({ prayer }: { prayer: Prayer }) {
                     className="flex items-baseline gap-2 relative z-10"
                     style={{ transform: "translateZ(50px)" }}
                 >
-                    <span className={`text-4xl md:text-5xl tracking-tighter ${timeClass}`}>
+                    <span className={`text-3xl md:text-5xl tracking-tighter ${timeClass}`}>
                         {prayer.time}
                     </span>
-                    <span className={`text-base md:text-lg font-bold tracking-[0.2em] uppercase ${periodClass}`}>
+                    <span className={`text-xs md:text-lg font-bold tracking-[0.2em] uppercase ${periodClass}`}>
                         {prayer.period}
                     </span>
                 </div>

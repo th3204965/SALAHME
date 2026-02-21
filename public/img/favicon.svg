@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+  <rect width="512" height="512" rx="120" fill="#020617"/>
+  <circle cx="256" cy="256" r="200" fill="url(#twilight)" opacity="0.1"/>
+  <path d="M256 128 L288 224 L384 256 L288 288 L256 384 L224 288 L128 256 L224 224 Z" fill="#2dd4bf"/>
+  <circle cx="256" cy="256" r="32" fill="#38bdf8"/>
+  <defs>
+    <radialGradient id="twilight" cx="0%" cy="0%" r="100%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#2dd4bf" />
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+</svg>

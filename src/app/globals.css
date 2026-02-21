@@ -7,15 +7,13 @@
     /* slate-50 */
 }
 
-/* Base Resets for Responsive Layout */
+/* Base Resets for Single-Page Layout */
 html,
 body {
     width: 100%;
-    min-height: 100dvh;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* Always allow scroll on small devices when content overflows */
-    overscroll-behavior-y: none;
+    height: 100dvh;
+    overflow: hidden;
+    overscroll-behavior: none;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: var(--color-background);

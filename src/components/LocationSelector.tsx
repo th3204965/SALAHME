@@ -69,7 +69,7 @@ export function LocationSelector({
                         className="group absolute inset-0 flex items-center justify-between px-6 bg-slate-900/60 hover:bg-slate-800/80 border border-white/10 rounded-2xl transition-all duration-300 w-full backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)] transform-style-3d cursor-crosshair overflow-hidden"
                     >
                         <div className="flex items-center gap-4 overflow-hidden relative z-10" style={{ transform: "translateZ(20px)" }}>
-                            <MapPin className="w-5 h-5 text-teal-400 flex-shrink-0 animate-bounce group-hover:animate-none" />
+                            <MapPin className="w-5 h-5 text-teal-400 flex-shrink-0 transition-transform duration-300 group-hover:scale-110" />
                             <span className="text-sm md:text-base text-slate-300 group-hover:text-white truncate tracking-widest font-medium transition-colors uppercase">
                                 {locationText}
                             </span>

@@ -19,7 +19,7 @@ export function PrayerList({ prayers }: { prayers: Prayer[] }) {
             variants={gridContainer}
             initial="hidden"
             animate="show"
-            className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 preserve-3d"
+            className="w-full grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5 preserve-3d"
             style={{ transformStyle: "preserve-3d" }}
         >
             {prayers.map((prayer) => (

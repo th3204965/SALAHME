@@ -34,7 +34,7 @@ export default function Home() {
     }, [mouseX, mouseY]);
 
     return (
-        <div className="relative min-h-[100dvh] w-full overflow-hidden flex flex-col items-center selection:bg-teal-500/30">
+        <div className="relative h-[100dvh] w-full overflow-hidden flex flex-col items-center selection:bg-teal-500/30">
             {/* Background elements */}
             <div className="bg-mesh" />
 
@@ -55,7 +55,7 @@ export default function Home() {
 
             {/* Foreground Content Wrapper */}
             <motion.div
-                className="relative z-10 flex flex-col min-h-[100dvh] w-full max-w-5xl mx-auto px-4 md:px-8 py-4 md:py-8"
+                className="relative z-10 flex flex-col h-[100dvh] w-full max-w-4xl mx-auto px-4 md:px-8 py-2 md:py-8"
                 style={{
                     perspective: 1000,
                     rotateX: smoothY,
@@ -63,7 +63,7 @@ export default function Home() {
                 }}
             >
                 {/* Top Nav */}
-                <nav className="flex items-center justify-between pt-2 pb-6 flex-shrink-0">
+                <nav className="flex items-center justify-between pt-1 md:pt-2 pb-2 md:pb-6 flex-shrink-0">
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
