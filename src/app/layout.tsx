@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const nunito = Nunito({
+const outfit = Outfit({
     subsets: ["latin"],
     display: "swap",
 });
@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={nunito.className}>{children}</body>
+            <body className={outfit.className}>{children}</body>
         </html>
     );
 }

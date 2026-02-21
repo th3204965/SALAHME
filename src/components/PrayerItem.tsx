@@ -1,30 +1,47 @@
 import type { Prayer } from "@/lib/types";
+import { motion, type Variants } from "framer-motion";
 
-/**
- * Individual prayer row displaying name and time.
- * Special prayers (Sunrise, Qiyam) have cyan styling.
- */
+const itemVariants: Variants = {
+    hidden: { opacity: 0, x: -20, filter: "blur(4px)" },
+    show: {
+        opacity: 1,
+        x: 0,
+        filter: "blur(0px)",
+        transition: {
+            type: "spring",
+            stiffness: 200,
+            damping: 20
+        }
+    }
+};
+
 export function PrayerItem({ prayer }: { prayer: Prayer }) {
-    const textClass = prayer.isSpecial ? "text-[#7BF2FB]" : "text-white";
-    const timeClass = prayer.isSpecial ? "text-[#48D9E4]" : "text-[#AAFFF4]";
+    const isHighlight = prayer.isSpecial;
+
+    // Aesthetic switch based on whether it's a "special" prayer
+    const rowClass = isHighlight ? "premium-row-special" : "premium-row hover:bg-white/[0.04]";
+    const nameClass = isHighlight ? "text-sky-400 font-medium text-glow-accent" : "text-white/80 font-light";
+    const timeClass = isHighlight ? "text-white font-medium" : "text-white";
+    const periodClass = isHighlight ? "text-sky-200" : "text-white/40";
 
     return (
-        <div>
-            <dt
-                className={`w-[49%] float-left h-[57px] leading-[33px] text-[32px] font-light clear-both mr-2.5 text-right ${textClass}`}
-            >
+        <motion.div
+            variants={itemVariants}
+            whileHover={{ scale: 1.01, transition: { duration: 0.2 } }}
+            className={`flex items-baseline justify-between w-full px-6 py-4 rounded-2xl transition-all duration-300 ${rowClass}`}
+        >
+            <div className={`text-xl md:text-2xl tracking-wide ${nameClass}`}>
                 {prayer.displayName}
-            </dt>
-            <dd
-                className={`w-[49%] float-left h-[57px] leading-[33px] text-[32px] font-light overflow-hidden text-left ${textClass}`}
-            >
-                <span
-                    className={`block float-left w-[100px] text-[38px] text-right pr-[25px] ${timeClass}`}
-                >
+            </div>
+
+            <div className="flex items-baseline gap-2">
+                <span className={`text-3xl md:text-4xl tracking-tighter ${timeClass}`}>
                     {prayer.time}
                 </span>
-                {prayer.period}
-            </dd>
-        </div>
+                <span className={`text-sm md:text-base font-medium tracking-widest uppercase ${periodClass}`}>
+                    {prayer.period}
+                </span>
+            </div>
+        </motion.div>
     );
 }

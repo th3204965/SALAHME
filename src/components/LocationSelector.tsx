@@ -1,15 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import type { LocationData } from "@/lib/types";
 import { getShortLocation } from "@/lib/utils";
+import { MapPin, Search, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
-/**
- * Location selector — clean conditional rendering.
- * Click location text → search input appears.
- * Spinner only on the geo icon during loading.
- */
 export function LocationSelector({
     location,
     onSearch,
@@ -40,81 +36,88 @@ export function LocationSelector({
 
     const locationText = location
         ? getShortLocation(
-              location.displayName,
-              location.cityName,
-              location.state,
-              location.stateCode,
-              location.country,
-          )
-        : "SELECT LOCATION";
-
-    const spinner = (
-        <div className="h-5 w-5 rounded-full border-2 border-white/70 border-t-transparent animate-spin" />
-    );
-
-    const geoIcon = <Image height={20} width={20} src="/img/geo.svg" alt="" />;
-
-    if (!isEditing) {
-        return (
-            <div className="flex justify-center mt-4">
-                <button
-                    type="button"
-                    onClick={() => setIsEditing(true)}
-                    className="group flex items-center gap-2 text-[26px] text-white/90 hover:text-white font-light tracking-wide uppercase transition-colors duration-300"
-                    aria-label="Change location"
-                >
-                    {locationText}
-                    <div className="opacity-50 group-hover:opacity-100 transition-opacity duration-300">
-                        {isLoading ? spinner : geoIcon}
-                    </div>
-                </button>
-            </div>
-        );
-    }
+            location.displayName,
+            location.cityName,
+            location.state,
+            location.stateCode,
+            location.country,
+        )
+        : "Set Location";
 
     return (
-        <div className="flex justify-center mt-4">
-            <h2 className="text-[26px] text-white border-b border-[#76EEF7] inline-block px-10 pb-2 relative">
-                <button
-                    type="button"
-                    onClick={() => {
-                        setIsEditing(false);
-                        setCityName("");
-                    }}
-                    className="h-6 mt-1 cursor-pointer absolute right-0 transition-transform duration-200 hover:scale-110"
-                    disabled={isLoading}
-                    aria-label="Cancel search"
-                >
-                    {isLoading ? spinner : geoIcon}
-                </button>
-
-                <form onSubmit={handleSubmit} className="inline-block">
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        value={cityName}
-                        onChange={(e) => setCityName(e.target.value)}
-                        onKeyDown={(e) => {
-                            if (e.key === "Escape") {
-                                setIsEditing(false);
-                                setCityName("");
-                            }
-                        }}
-                        disabled={isLoading}
-                        placeholder="Search City..."
-                        className="location-input bg-transparent border-none outline-none text-white w-[250px] text-center placeholder-white/50 disabled:opacity-50 font-light uppercase"
-                    />
-                    {/* Hidden submit button — lets mobile keyboards show a "Go" action */}
-                    <button
-                        type="submit"
-                        className="sr-only"
-                        aria-hidden="true"
-                        tabIndex={-1}
+        <div className="w-full relative h-[52px]">
+            <AnimatePresence mode="wait">
+                {!isEditing ? (
+                    <motion.button
+                        key="button"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        type="button"
+                        onClick={() => setIsEditing(true)}
+                        className="group absolute inset-0 flex items-center justify-between px-6 bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 rounded-2xl transition-all duration-300 w-full"
                     >
-                        Search
-                    </button>
-                </form>
-            </h2>
+                        <div className="flex items-center gap-3 overflow-hidden">
+                            <MapPin className="w-4 h-4 text-sky-400 flex-shrink-0" />
+                            <span className="text-sm md:text-base text-white/70 group-hover:text-white truncate tracking-wide font-light">
+                                {locationText}
+                            </span>
+                        </div>
+
+                        {isLoading ? (
+                            <div className="h-4 w-4 rounded-full border-2 border-sky-500/50 border-t-sky-400 animate-spin flex-shrink-0" />
+                        ) : (
+                            <div className="text-[10px] uppercase tracking-[0.2em] text-white/20 group-hover:text-white/40 font-semibold transition-colors">
+                                Change
+                            </div>
+                        )}
+                    </motion.button>
+                ) : (
+                    <motion.form
+                        key="form"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        onSubmit={handleSubmit}
+                        className="absolute inset-0 flex items-center bg-zinc-900 border border-sky-500/30 rounded-2xl px-4 shadow-[0_0_20px_rgba(56,189,248,0.15)] w-full z-20"
+                    >
+                        <Search className="w-4 h-4 text-sky-400 mr-3 flex-shrink-0" />
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            value={cityName}
+                            onChange={(e) => setCityName(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Escape") {
+                                    setIsEditing(false);
+                                    setCityName("");
+                                }
+                            }}
+                            disabled={isLoading}
+                            placeholder="Type city name..."
+                            className="flex-1 bg-transparent border-none outline-none text-white text-sm md:text-base placeholder-white/30 disabled:opacity-50 font-light w-full min-w-0"
+                        />
+
+                        {isLoading ? (
+                            <div className="h-4 w-4 rounded-full border-2 border-sky-500/50 border-t-sky-400 animate-spin flex-shrink-0 ml-2" />
+                        ) : (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsEditing(false);
+                                    setCityName("");
+                                }}
+                                className="ml-2 p-1.5 hover:bg-white/10 rounded-full transition-colors flex-shrink-0"
+                            >
+                                <X className="w-4 h-4 text-white/50 hover:text-white" />
+                            </button>
+                        )}
+                        <button type="submit" className="sr-only" tabIndex={-1}>Search</button>
+                    </motion.form>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
