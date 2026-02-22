@@ -1,9 +1,4 @@
-import {
-    CalculationMethod,
-    Coordinates,
-    HighLatitudeRule,
-    PrayerTimes,
-} from "adhan";
+import { CalculationMethod, Coordinates, HighLatitudeRule, PrayerTimes } from "adhan";
 import { PRAYER_DISPLAY_NAMES } from "@/lib/constants";
 import type { Prayer as PrayerType } from "@/lib/types";
 
@@ -41,10 +36,7 @@ export interface PrayerTimesResult {
     timezone: string;
 }
 
-export function calculatePrayerTimes(
-    latitude: number,
-    longitude: number,
-): PrayerTimesResult {
+export function calculatePrayerTimes(latitude: number, longitude: number): PrayerTimesResult {
     const today = new Date();
     const coordinates = new Coordinates(latitude, longitude);
     const params = CalculationMethod.Karachi();
@@ -63,19 +55,17 @@ export function calculatePrayerTimes(
         qiyam: qiyamTime,
     };
 
-    const prayers: PrayerType[] = Object.entries(prayerEntries).map(
-        ([name, date]) => {
-            const formatted = formatTime(date);
-            const { time, period } = parseTime(formatted);
-            return {
-                name,
-                displayName: PRAYER_DISPLAY_NAMES[name] || name,
-                time,
-                period,
-                isSpecial: SPECIAL_PRAYERS.has(name),
-            };
-        },
-    );
+    const prayers: PrayerType[] = Object.entries(prayerEntries).map(([name, date]) => {
+        const formatted = formatTime(date);
+        const { time, period } = parseTime(formatted);
+        return {
+            name,
+            displayName: PRAYER_DISPLAY_NAMES[name] || name,
+            time,
+            period,
+            isSpecial: SPECIAL_PRAYERS.has(name),
+        };
+    });
 
     return {
         prayers,

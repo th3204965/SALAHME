@@ -4,11 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { reverseGeocodeAction, searchCityAction } from "@/app/actions";
 import { AUTO_REFRESH_INTERVAL, DEFAULT_LOCATION } from "@/lib/constants";
 import { calculatePrayerTimes } from "@/lib/prayer-service";
-import type {
-    LocationData,
-    UsePrayerTimesReturn,
-    UsePrayerTimesState,
-} from "@/lib/types";
+import type { LocationData, UsePrayerTimesReturn, UsePrayerTimesState } from "@/lib/types";
 import { getStorageItem, setStorageItem } from "@/lib/utils";
 
 // Single cache key — stores full LocationData (city name is derived from it)
@@ -28,8 +24,6 @@ function getCachedLocation(): LocationData | null {
         return null;
     }
 }
-
-
 
 /**
  * Hook for prayer times. Cache-first: on reload, shows cached data instantly.
@@ -74,9 +68,7 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
                 if (locationOverride?.cityName) {
                     location = {
                         cityName: locationOverride.cityName,
-                        displayName:
-                            locationOverride.displayName ||
-                            locationOverride.cityName,
+                        displayName: locationOverride.displayName || locationOverride.cityName,
                         latitude,
                         longitude,
                         state: locationOverride.state,
@@ -87,20 +79,20 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
                     const geo = await reverseGeocodeAction(latitude, longitude);
                     location = geo.success
                         ? {
-                            cityName: geo.cityName || "Current Location",
-                            displayName: geo.displayName,
-                            latitude,
-                            longitude,
-                            state: geo.state,
-                            stateCode: geo.stateCode,
-                            country: geo.country,
-                        }
+                              cityName: geo.cityName || "Current Location",
+                              displayName: geo.displayName,
+                              latitude,
+                              longitude,
+                              state: geo.state,
+                              stateCode: geo.stateCode,
+                              country: geo.country,
+                          }
                         : {
-                            cityName: "Current Location",
-                            displayName: `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`,
-                            latitude,
-                            longitude,
-                        };
+                              cityName: "Current Location",
+                              displayName: `${latitude.toFixed(2)}, ${longitude.toFixed(2)}`,
+                              latitude,
+                              longitude,
+                          };
                 }
 
                 cacheLocation(location);
@@ -160,7 +152,10 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
 
         // First-ever visit: load the default location entirely synchronously!
         // No async loadPrayers calls, eliminating the microscopic 1-frame isLoading flash.
-        const { prayers } = calculatePrayerTimes(DEFAULT_LOCATION.latitude, DEFAULT_LOCATION.longitude);
+        const { prayers } = calculatePrayerTimes(
+            DEFAULT_LOCATION.latitude,
+            DEFAULT_LOCATION.longitude,
+        );
         const defaultLoc: LocationData = {
             cityName: DEFAULT_LOCATION.cityName,
             displayName: DEFAULT_LOCATION.displayName,
@@ -172,7 +167,7 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
         };
         cacheLocation(defaultLoc);
         setState({ location: defaultLoc, prayers, isLoading: false, error: null });
-    }, [searchCity, loadPrayers]);
+    }, []);
 
     // Auto-refresh: recalculate prayer times locally every minute (NO network)
     useEffect(() => {
@@ -181,10 +176,7 @@ export function usePrayerTimes(): UsePrayerTimesReturn {
             // Use ref — always the latest location, no stale closure
             const loc = locationRef.current;
             if (loc) {
-                const { prayers } = calculatePrayerTimes(
-                    loc.latitude,
-                    loc.longitude,
-                );
+                const { prayers } = calculatePrayerTimes(loc.latitude, loc.longitude);
                 setState((prev) => ({ ...prev, prayers }));
             }
         }, AUTO_REFRESH_INTERVAL);

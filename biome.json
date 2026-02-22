@@ -3,23 +3,94 @@
     "vcs": {
         "enabled": true,
         "clientKind": "git",
-        "useIgnoreFile": true
+        "useIgnoreFile": true,
+        "defaultBranch": "main"
     },
     "files": {
         "ignoreUnknown": true,
-        "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+        "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!coverage"]
     },
     "formatter": {
         "enabled": true,
         "indentStyle": "space",
-        "indentWidth": 4
+        "indentWidth": 4,
+        "lineWidth": 100,
+        "lineEnding": "lf",
+        "attributePosition": "auto"
+    },
+    "css": {
+        "formatter": {
+            "enabled": true,
+            "indentStyle": "space",
+            "indentWidth": 4,
+            "lineWidth": 100,
+            "quoteStyle": "double"
+        },
+        "linter": {
+            "enabled": true
+        }
+    },
+    "javascript": {
+        "formatter": {
+            "enabled": true,
+            "indentStyle": "space",
+            "indentWidth": 4,
+            "lineWidth": 100,
+            "quoteStyle": "double",
+            "jsxQuoteStyle": "double",
+            "semicolons": "always",
+            "trailingCommas": "all",
+            "bracketSpacing": true,
+            "arrowParentheses": "always"
+        }
+    },
+    "json": {
+        "formatter": {
+            "enabled": true,
+            "indentStyle": "space",
+            "indentWidth": 4,
+            "lineWidth": 100,
+            "trailingCommas": "none"
+        }
     },
     "linter": {
         "enabled": true,
         "rules": {
             "recommended": true,
             "suspicious": {
-                "noUnknownAtRules": "off"
+                "noUnknownAtRules": "off",
+                "noExplicitAny": "warn",
+                "noArrayIndexKey": "warn"
+            },
+            "style": {
+                "noNonNullAssertion": "warn",
+                "useConst": "error",
+                "useExponentiationOperator": "off",
+                "useImportType": "error",
+                "useTemplate": "warn",
+                "noUnusedTemplateLiteral": "warn",
+                "useFilenamingConvention": {
+                    "level": "error",
+                    "options": {
+                        "filenameCases": ["kebab-case"],
+                        "requireAscii": true
+                    }
+                }
+            },
+            "complexity": {
+                "noForEach": "off",
+                "noBannedTypes": "off",
+                "useLiteralKeys": "off"
+            },
+            "correctness": {
+                "noUnusedVariables": "warn",
+                "noUnusedImports": "error",
+                "useExhaustiveDependencies": "warn"
+            },
+            "a11y": {
+                "useButtonType": "warn",
+                "noSvgWithoutTitle": "off",
+                "noStaticElementInteractions": "off"
             }
         },
         "domains": {

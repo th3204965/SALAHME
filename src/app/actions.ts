@@ -19,10 +19,7 @@ interface NominatimResult {
 }
 
 /** Extract city, state, stateCode from Nominatim address */
-function parseAddress(
-    address: NominatimResult["address"],
-    fallbackCity: string,
-) {
+function parseAddress(address: NominatimResult["address"], fallbackCity: string) {
     const cityName =
         address.city ||
         address.town ||
@@ -44,9 +41,7 @@ function parseAddress(
     };
 }
 
-export async function searchCityAction(
-    cityName: string,
-): Promise<GeocodeResult> {
+export async function searchCityAction(cityName: string): Promise<GeocodeResult> {
     const trimmed = cityName?.trim();
     if (!trimmed || trimmed.length < 2) {
         return { success: false, error: "Please enter a valid city name" };
@@ -133,10 +128,7 @@ export async function reverseGeocodeAction(
             return { success: false, error: "Could not determine location." };
         }
 
-        const addr = parseAddress(
-            data.address,
-            data.display_name.split(",")[0],
-        );
+        const addr = parseAddress(data.address, data.display_name.split(",")[0]);
         return {
             success: true,
             latitude,
