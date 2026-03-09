@@ -77,9 +77,9 @@ export default function Home() {
                 style={
                     mousePos.x !== 0 || mousePos.y !== 0
                         ? {
-                              perspective: 1000,
-                              transform: `rotateX(${mousePos.y * 5}deg) rotateY(${mousePos.x * 5}deg)`,
-                          }
+                            perspective: 1000,
+                            transform: `rotateX(${mousePos.y * 5}deg) rotateY(${mousePos.x * 5}deg)`,
+                        }
                         : undefined
                 }
             >

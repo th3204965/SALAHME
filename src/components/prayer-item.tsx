@@ -42,6 +42,7 @@ export const PrayerItem = memo(function PrayerItem({
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
@@ -52,11 +53,13 @@ export const PrayerItem = memo(function PrayerItem({
     }, []);
 
     const handleMouseLeave = useCallback(() => {
+        if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
         setIsHovered(false);
         setMousePos({ x: 0.5, y: 0.5 });
     }, []);
 
     const handleMouseEnter = useCallback(() => {
+        if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
         setIsHovered(true);
     }, []);
 
