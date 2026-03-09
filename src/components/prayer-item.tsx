@@ -1,7 +1,7 @@
 "use client";
 
 import { CloudSun, Moon, Stars, Sun, Sunrise, Sunset } from "lucide-react";
-import { useState } from "react";
+import { memo, useCallback, useState } from "react";
 import type { Prayer } from "@/lib/types";
 
 const getIconForPrayer = (name: string, isSpecial: boolean) => {
@@ -28,14 +28,20 @@ const getIconForPrayer = (name: string, isSpecial: boolean) => {
     }
 };
 
-export function PrayerItem({ prayer, index = 0 }: { prayer: Prayer; index?: number }) {
+export const PrayerItem = memo(function PrayerItem({
+    prayer,
+    index = 0,
+}: {
+    prayer: Prayer;
+    index?: number;
+}) {
     const isHighlight = prayer.isSpecial;
 
     // 3D Tilt Physics (desktop only — touch events are blocked on mobile)
     const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
     const [isHovered, setIsHovered] = useState(false);
 
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         const rect = e.currentTarget.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
@@ -43,16 +49,16 @@ export function PrayerItem({ prayer, index = 0 }: { prayer: Prayer; index?: numb
             x: mouseX / rect.width,
             y: mouseY / rect.height,
         });
-    };
+    }, []);
 
-    const handleMouseLeave = () => {
+    const handleMouseLeave = useCallback(() => {
         setIsHovered(false);
         setMousePos({ x: 0.5, y: 0.5 });
-    };
+    }, []);
 
-    const handleMouseEnter = () => {
+    const handleMouseEnter = useCallback(() => {
         setIsHovered(true);
-    };
+    }, []);
 
     // Derived transforms for Desktop
     const rotateX = (mousePos.y - 0.5) * -30; // -15 to 15 deg
@@ -134,4 +140,4 @@ export function PrayerItem({ prayer, index = 0 }: { prayer: Prayer; index?: numb
             </div>
         </div>
     );
-}
+});

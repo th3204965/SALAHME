@@ -16,6 +16,8 @@
 # next.js
 /.next/
 /out/
+.turbo/
+.biome/
 
 # production
 /build

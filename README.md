@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Salahme
+
+A modern, fast, and responsive web application for exploring authentic prayer times globally. Built with React, Next.js, and TailwindCSS.
+
+## Features
+
+- **Accurate Adhan Calculations**: Uses the `adhan` library to calculate standard prayers (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) and special timings (Qiyam) based on the University of Islamic Sciences, Karachi calculation method.
+- **Location Awareness**: Auto-detects the user's location on the first visit or defaults to a preset location (Bissau, RJ).
+- **Search Capabilities**: Integrated with a server action to search for cities or geographical locations dynamically.
+- **Offline Reliability**: Caches location data intelligently in `localStorage` to reduce API calls and display data instantly on return visits.
+- **Real-time Reactivity**: Auto-refreshes prayer times in the background to ensure data is always up-to-date.
+
+## Performance & Optimizations
+
+This application has been relentlessly optimized for production:
+- **Zero-Latency Rendering**: Implemented a "Cache-First" retrieval strategy alongside `React.memo` and `useCallback` to prevent cascading V-DOM renders during heavy 3D CSS hover effects.
+- **Static Edge Ready**: Fully Next.js SSG configured. `next.config.ts` has been optimized (`poweredByHeader: false`, compression enabled), and `src/app/layout.tsx` is completely purged of CPU-taxing inline styles.
+- **Graceful Rate Limiting**: Server actions proactively analyze HTTP `429 Too Many Requests` API failures to degrade gracefully instead of throwing exceptions.
+- **Universal Config Hardening**: TypeScript is scaled to output minimal `ES2022` syntax with strict dead-code testing (`noUnusedLocals`). `postcss.config.mjs` applies strict `autoprefixer` transformations. Tests harness isolated `.vitest` caching directories for speed.
+
+## Tech Stack
+
+- **Framework**: [Next.js](https://nextjs.org) (App Router)
+- **Library**: [React 19](https://react.dev)
+- **Styling**: [TailwindCSS v4](https://tailwindcss.com/)
+- **Linting & Formatting**: [Biome](https://biomejs.dev)
+- **Testing**: [Vitest](https://vitest.dev) & [React Testing Library](https://testing-library.com/)
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository and install dependencies:**
+
+   ```bash
+   pnpm install
+   ```
+
+2. **Run the development server:**
+
+   ```bash
+   pnpm dev
+   ```
+
+3. **Open [http://localhost:3000](http://localhost:3000) with your browser to see the app.**
+
+## Scripts
+
+This project uses modern tooling to ensure high code quality.
+
+### Testing
+
+Unit and integration tests are handled by **Vitest**:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run all tests once
+pnpm test
+
+# Run tests in watch mode
+pnpm run test:watch
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Formatting & Linting
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+We use **Biome** for blazing fast linting and formatting:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Check code for lint errors
+pnpm lint
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Auto-fix lint issues and format files
+pnpm format
+```

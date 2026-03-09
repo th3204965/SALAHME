@@ -31,8 +31,12 @@ export default function Home() {
         document.body.style.width = "100%";
         document.body.style.height = "100dvh";
         return () => {
-            document.removeEventListener("touchmove", preventScroll);
-            document.removeEventListener("scroll", preventScrollEvent);
+            document.removeEventListener("touchmove", preventScroll, {
+                passive: false,
+            } as EventListenerOptions);
+            document.removeEventListener("scroll", preventScrollEvent, {
+                passive: false,
+            } as EventListenerOptions);
         };
     }, []);
 

@@ -34,6 +34,7 @@ export const viewport: Viewport = {
     maximumScale: 1,
     userScalable: false,
     viewportFit: "cover",
+    themeColor: "#020617",
 };
 
 export default function RootLayout({
@@ -42,14 +43,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html
-            lang="en"
-            style={{ overflow: "hidden", height: "100dvh", position: "fixed", width: "100%" }}
-        >
-            <body
-                className={outfit.className}
-                style={{ overflow: "hidden", height: "100dvh", position: "fixed", width: "100%" }}
-            >
+        <html lang="en">
+            <body className={outfit.className}>
                 {children}
             </body>
         </html>

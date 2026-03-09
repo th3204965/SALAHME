@@ -62,6 +62,13 @@ export async function searchCityAction(cityName: string): Promise<GeocodeResult>
             next: { revalidate: 86400 },
         });
 
+        if (response.status === 429) {
+            return {
+                success: false,
+                error: "Rate limit exceeded. Please wait a moment before searching again.",
+            };
+        }
+
         if (!response.ok) {
             return {
                 success: false,
@@ -118,6 +125,10 @@ export async function reverseGeocodeAction(
             },
             next: { revalidate: 86400 },
         });
+
+        if (response.status === 429) {
+            return { success: false, error: "Rate limit exceeded. Please wait a moment." };
+        }
 
         if (!response.ok) {
             return { success: false, error: "Failed to get location name." };
