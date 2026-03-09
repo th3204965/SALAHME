@@ -46,8 +46,8 @@ describe("usePrayerTimes", () => {
             latitude: 40.7128,
             longitude: -74.006,
         };
-        // The hook uses "salahme-location-cache-v2"
-        window.localStorage.setItem("salahme-location-cache-v2", JSON.stringify(cachedLocation));
+        // The hook uses "salahme-location-cache"
+        window.localStorage.setItem("salahme-location-cache", JSON.stringify(cachedLocation));
 
         const { result } = renderHook(() => usePrayerTimes());
 

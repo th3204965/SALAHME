@@ -8,8 +8,8 @@ import type { LocationData, UsePrayerTimesReturn, UsePrayerTimesState } from "@/
 import { getStorageItem, setStorageItem } from "@/lib/utils";
 
 // Single cache key — stores full LocationData (city name is derived from it)
-// We bumped this key from "salahme-location-cache" to bust previous "Jaipur" defaults on old browsers
-const LOCATION_CACHE_KEY = "salahme-location-cache-v2";
+// We bumped this key from "salahme-location-cache" to bust previous location defaults on old browsers
+const LOCATION_CACHE_KEY = "salahme-location-cache";
 
 function cacheLocation(location: LocationData): void {
     setStorageItem(LOCATION_CACHE_KEY, JSON.stringify(location));
