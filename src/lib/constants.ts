@@ -23,8 +23,5 @@ export const DEFAULT_LOCATION = {
 /** Calculation method display name */
 export const CALCULATION_METHOD = "University of Islamic Sciences, Karachi";
 
-/** Local storage key for persisting last searched city */
-export const STORAGE_KEY = "salahme-last-city";
-
 /** Auto-refresh interval in milliseconds (1 minute) */
 export const AUTO_REFRESH_INTERVAL = 60000;

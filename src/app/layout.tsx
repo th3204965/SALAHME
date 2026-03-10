@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
+import { ErrorBoundary } from "@/components/error-boundary";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -44,7 +45,17 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={outfit.className}>{children}</body>
+            <head>
+                <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org" />
+                <link
+                    rel="preconnect"
+                    href="https://nominatim.openstreetmap.org"
+                    crossOrigin="anonymous"
+                />
+            </head>
+            <body className={outfit.className}>
+                <ErrorBoundary>{children}</ErrorBoundary>
+            </body>
         </html>
     );
 }

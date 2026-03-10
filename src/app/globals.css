@@ -126,9 +126,11 @@ body {
     }
 
     .card-3d-special {
-        background: linear-gradient(135deg,
-                rgba(45, 212, 191, 0.05) 0%,
-                rgba(14, 165, 233, 0.02) 100%);
+        background: linear-gradient(
+            135deg,
+            rgba(45, 212, 191, 0.05) 0%,
+            rgba(14, 165, 233, 0.02) 100%
+        );
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         box-shadow:
@@ -138,10 +140,6 @@ body {
 }
 
 /* Text glow utilities */
-.text-glow-soft {
-    text-shadow: 0 4px 20px rgba(248, 250, 252, 0.15);
-}
-
 .text-glow-accent-soft {
     text-shadow: 0 4px 20px rgba(45, 212, 191, 0.4);
 }
@@ -179,16 +177,4 @@ body {
     transform: translate(-50%, -50%);
     max-height: 100dvh;
     overflow: hidden;
-}
-
-/* Hide scrollbars for slick UI */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-
-.no-scrollbar {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
 }
