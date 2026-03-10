@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import { Component } from "react";
+import { TriangleAlert } from "lucide-react";
 
 interface Props {
     children: ReactNode;
@@ -26,7 +27,9 @@ export class ErrorBoundary extends Component<Props, State> {
             return (
                 <div className="fixed inset-0 flex items-center justify-center bg-background text-foreground">
                     <div className="text-center max-w-md px-6">
-                        <div className="text-6xl mb-6">🕌</div>
+                        <div className="mb-6 flex justify-center">
+                            <TriangleAlert className="size-16 text-teal-400" strokeWidth={1.5} />
+                        </div>
                         <h1 className="text-2xl font-bold mb-3 tracking-wide">
                             Something went wrong
                         </h1>
